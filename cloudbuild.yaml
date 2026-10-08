@@ -1,0 +1,32 @@
+steps:
+  # Step 1: Build the Docker image from Dockerfile
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - '${_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY_NAME}/abcd-website:${SHORT_SHA}'
+      - '-t'
+      - '${_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY_NAME}/abcd-website:latest'
+      - '.'
+
+  # Step 2: Push the Docker image with commit SHA tag
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - '${_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY_NAME}/abcd-website:${SHORT_SHA}'
+
+  # Step 3: Push the Docker image with 'latest' tag
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - '${_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY_NAME}/abcd-website:latest'
+
+# Specify images built to let Cloud Build track and store them in Artifact Registry
+images:
+  - '${_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY_NAME}/abcd-website:${SHORT_SHA}'
+  - '${_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY_NAME}/abcd-website:latest'
+
+# Substitution Variables tailored to your Singapore setup
+substitutions:
+  _LOCATION: 'asia-southeast1'
+  _REPOSITORY_NAME: 'tnqlumina-website'
