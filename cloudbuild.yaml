@@ -26,7 +26,11 @@ images:
   - '${_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY_NAME}/abcd-website:${SHORT_SHA}'
   - '${_LOCATION}-docker.pkg.dev/${PROJECT_ID}/${_REPOSITORY_NAME}/abcd-website:latest'
 
-# Substitution Variables tailored to your Singapore setup
+# Required option when using custom user-managed Service Accounts
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+# Default Substitution Variables
 substitutions:
   _LOCATION: 'asia-southeast1'
   _REPOSITORY_NAME: 'tnqlumina-website'
